@@ -11,9 +11,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 w = 1.
-Nx = Ny = 5
+Nx = Ny = 35
 Lx = Ly = 2
 h = Lx / (Nx - 1)
+max_iter = 1000
 
 def q(x, y):
     output = 2 * (2 - x**2 - y**2)
@@ -33,7 +34,26 @@ def una_iteracion(phi, h=h, q=q):
 
 
 phi = np.zeros((Ny, Nx))
-print(phi)
+phi_prev = phi.copy()
 
 una_iteracion(phi)
+
+def no_ha_convergido(phi, phi_prev, tol=1e-3):
+    not_zero = phi != 0
+    diff_relat = (phi_prev[not_zero] - phi[not_zero]) / phi[not_zero]
+    max_diff = np.fabs(diff_relat).max()
+    if max_diff > tol:
+        convergio = False
+    else:
+        convergio = True
+    return not convergio
+
+counter = 1
+while no_ha_convergido(phi, phi_prev, tol=1e-20) and counter<max_iter:
+    phi_prev = phi.copy()
+    una_iteracion(phi)
+    counter += 1
+
+print("Counter = {}".format(counter))
+
 print(phi)

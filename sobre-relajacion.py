@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 
 
-w = 1.7
+w = 1.8
 Nx = Ny = 35
 Lx = Ly = 2
 h = Lx / (Nx - 1)
@@ -72,3 +72,11 @@ ax.plot_surface(X, Y, phi, rstride=3, cstride=3)
 
 fig.show()
 
+fig2 = plt.figure(2)
+fig2.clf()
+
+ax2 = fig2.add_subplot(111)
+ax2.imshow(phi, origin='bottom')
+ax2.contour(phi, origin='lower', colors='k')
+
+fig2.show()

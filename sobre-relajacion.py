@@ -9,8 +9,10 @@ Usando el metodo de sobre-relajacion
 
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import axes3d
 
-w = 1.
+
+w = 1.7
 Nx = Ny = 35
 Lx = Ly = 2
 h = Lx / (Nx - 1)
@@ -49,7 +51,7 @@ def no_ha_convergido(phi, phi_prev, tol=1e-3):
     return not convergio
 
 counter = 1
-while no_ha_convergido(phi, phi_prev, tol=1e-20) and counter<max_iter:
+while no_ha_convergido(phi, phi_prev, tol=1e-9) and counter<max_iter:
     phi_prev = phi.copy()
     una_iteracion(phi)
     counter += 1
@@ -57,3 +59,16 @@ while no_ha_convergido(phi, phi_prev, tol=1e-20) and counter<max_iter:
 print("Counter = {}".format(counter))
 
 print(phi)
+
+x = np.linspace(-1, 1, Nx)
+y = np.linspace(-1, 1, Ny)
+X, Y = np.meshgrid(x, y)
+
+fig = plt.figure(1)
+fig.clf()
+
+ax = fig.add_subplot(111, projection='3d')
+ax.plot_surface(X, Y, phi, rstride=3, cstride=3)
+
+fig.show()
+
